@@ -1,19 +1,20 @@
 "use client";
 
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import Image from "next/image";
+import z from "zod";
+import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
   FormField,
   FormItem,
   FormLabel,
+  FormControl,
+  Form,
   FormMessage,
-} from "@/features/components/ui/form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/features/components/ui/input";
-import Image from "next/image";
-import z from "zod";
-import { Button } from "@/features/components/ui/button";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 const authenticationSchema = z.object({
   email: z.string().email(),
@@ -27,9 +28,16 @@ export const AuthenticationForm = () => {
     resolver: zodResolver(authenticationSchema),
   });
 
+  const onSubmit = (values: AuthenticationValues) => {
+    console.log(values, "valores");
+  };
+
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-6">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-6"
+      >
         <FormField
           control={form.control}
           name="email"
@@ -48,6 +56,7 @@ export const AuthenticationForm = () => {
                       className="absolute left-3 top-1/2 bottom-1/2 -translate-y-1/2"
                     />
                   }
+                  type="email"
                   placeholder="e.g.alex@email.com"
                 />
               </FormControl>
@@ -73,6 +82,7 @@ export const AuthenticationForm = () => {
                       className="absolute left-3 top-1/2 bottom-1/2 -translate-y-1/2"
                     />
                   }
+                  type="password"
                   placeholder="Enter your password"
                 />
               </FormControl>
