@@ -4,9 +4,11 @@ import { LinkItem } from "./link-item";
 import { AddLink } from "./add-link";
 import { Button } from "@/components/ui/button";
 import { linkManagementStore } from "../store/link-management-store";
+import { useDragAndDrop } from "../hooks/useDragAndDrop";
 
 export const LinkList = () => {
   const links = linkManagementStore((state) => state.links);
+  const { config } = useDragAndDrop();
 
   return (
     <div>
@@ -14,7 +16,15 @@ export const LinkList = () => {
         <AddLink />
         <div className="flex flex-col gap-4">
           {links.map((link, index) => (
-            <LinkItem index={index} key={link.id} {...link} />
+            <LinkItem
+              {...{
+                link,
+                index,
+                ...config,
+              }}
+              id={`draggable-${index}`}
+              key={link.id}
+            />
           ))}
         </div>
       </div>

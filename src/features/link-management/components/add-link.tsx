@@ -14,6 +14,7 @@ export const AddLink = () => {
       }}
       className="mt-10 mb-6 font-semibold"
       variant="outline"
+      type="button"
     >
       + Add new link
     </Button>

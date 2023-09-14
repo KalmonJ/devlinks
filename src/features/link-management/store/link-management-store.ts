@@ -7,6 +7,7 @@ type LinkManagementStore = {
   remove: (id: string) => void;
   addPlatform: (platform: Link["platform"], idLink: string) => void;
   addLink: (value: string, idLink: string) => void;
+  addLinks: (links: Link[]) => void;
 };
 
 export const linkManagementStore = create<LinkManagementStore>()(
@@ -31,6 +32,9 @@ export const linkManagementStore = create<LinkManagementStore>()(
       const links = [...get().links];
       const index = links.findIndex((link) => link.id === idLink);
       links[index].platform = platform;
+      set(() => ({ links }));
+    },
+    addLinks(links) {
       set(() => ({ links }));
     },
     links: [],
