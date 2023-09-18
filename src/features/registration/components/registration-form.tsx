@@ -16,6 +16,10 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useMutation } from "react-query";
+import { register } from "../lib/register";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 const authenticationSchema = z
   .object({
@@ -35,9 +39,26 @@ export const RegistrationForm = () => {
     resolver: zodResolver(authenticationSchema),
   });
 
-  const onSubmit = (values: RegistrationValues) => {
-    console.log(values, "valores");
-  };
+  const { toast } = useToast();
+
+  const { mutate } = useMutation({
+    mutationFn: register,
+  });
+
+  const onSubmit = (values: RegistrationValues) =>
+    mutate(values, {
+      onError() {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description:
+            "Error sending data, please check the fields and try again.",
+          action: (
+            <ToastAction altText="try send form again">try again</ToastAction>
+          ),
+        });
+      },
+    });
 
   return (
     <Form {...form}>

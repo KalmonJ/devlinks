@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import Image from "next/image";
-import z from "zod";
 import { Button } from "@/components/ui/button";
 import {
   FormField,
@@ -15,6 +14,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useMutation } from "react-query";
+import { login } from "../lib/login";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import z from "zod";
 
 const authenticationSchema = z.object({
   email: z.string().email(),
@@ -28,9 +32,32 @@ export const AuthenticationForm = () => {
     resolver: zodResolver(authenticationSchema),
   });
 
-  const onSubmit = (values: AuthenticationValues) => {
-    console.log(values, "valores");
-  };
+  const { toast } = useToast();
+
+  const { mutate } = useMutation({
+    mutationFn: login,
+  });
+
+  const onSubmit = (values: AuthenticationValues) =>
+    mutate(values, {
+      onSuccess() {
+        toast({
+          variant: "default",
+          title: "Success",
+          description: "login successful.",
+        });
+      },
+
+      onError() {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description:
+            "invalid credentials, check your email and password and try again.",
+          action: <ToastAction altText="error">I understand</ToastAction>,
+        });
+      },
+    });
 
   return (
     <Form {...form}>
