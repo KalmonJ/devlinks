@@ -18,6 +18,7 @@ import { useMutation } from "react-query";
 import { login } from "../lib/login";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import { useRouter } from "next/navigation";
 import z from "zod";
 
 const authenticationSchema = z.object({
@@ -33,6 +34,7 @@ export const AuthenticationForm = () => {
   });
 
   const { toast } = useToast();
+  const { push } = useRouter();
 
   const { mutate } = useMutation({
     mutationFn: login,
@@ -46,6 +48,8 @@ export const AuthenticationForm = () => {
           title: "Success",
           description: "login successful.",
         });
+
+        push("/management");
       },
 
       onError() {

@@ -20,6 +20,7 @@ import { useMutation } from "react-query";
 import { register } from "../lib/register";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import { useRouter } from "next/navigation";
 
 const authenticationSchema = z
   .object({
@@ -41,12 +42,23 @@ export const RegistrationForm = () => {
 
   const { toast } = useToast();
 
+  const { push } = useRouter();
+
   const { mutate } = useMutation({
     mutationFn: register,
   });
 
   const onSubmit = (values: RegistrationValues) =>
     mutate(values, {
+      onSuccess() {
+        toast({
+          variant: "default",
+          title: "Success",
+          description: "your account has been created successfully.",
+        });
+
+        push("/");
+      },
       onError() {
         toast({
           variant: "destructive",
