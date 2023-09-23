@@ -13,7 +13,7 @@ export const cookies = {
   get<T>(key: string): T | null {
     if (typeof document !== "object") return null;
 
-    if (!document || !document.cookie.includes("session=")) {
+    if (!document || !document.cookie.includes(`${key}=`)) {
       return null;
     }
     const cookies = document.cookie.replaceAll(/\s/g, "").split(";");
