@@ -22,3 +22,8 @@ export type Platforms =
   | "Hasnode"
   | "Stack Overflow"
   | "";
+
+export type SaveLinks = {
+  links: Link[];
+  userId: string;
+};

@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Platforms, Link as TypeLink } from "../types/link";
+import { Platforms, Link as TypeLink } from "../types";
 import { linkManagementStore } from "../store/link-management-store";
 import { forwardRef, HTMLAttributes } from "react";
 

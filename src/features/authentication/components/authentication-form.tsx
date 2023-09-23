@@ -1,8 +1,5 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,54 +11,30 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useMutation } from "react-query";
 import { login } from "../lib/login";
-import { useToast } from "@/hooks/use-toast";
-import { ToastAction } from "@/components/ui/toast";
-import { useRouter } from "next/navigation";
 import z from "zod";
-
-const authenticationSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8, { message: "Password is too short" }),
-});
+import { useAuthenticationForm } from "../hooks/useAuthentication";
+import { authenticationSchema } from "../schema";
+import { LoginResponse } from "../types";
+import { saveClientCookie } from "@/lib/utils";
 
 type AuthenticationValues = z.infer<typeof authenticationSchema>;
 
 export const AuthenticationForm = () => {
-  const form = useForm<AuthenticationValues>({
-    resolver: zodResolver(authenticationSchema),
+  const { form, onSubmit } = useAuthenticationForm<
+    AuthenticationValues,
+    LoginResponse
+  >({
+    submitFunction: login,
+    schema: authenticationSchema,
+    onSuccess(data) {
+      saveClientCookie("session", JSON.stringify(data));
+    },
+    onSuccessRedirect: "/management",
+    successToastConfig: {
+      description: "login successful.",
+    },
   });
-
-  const { toast } = useToast();
-  const { push } = useRouter();
-
-  const { mutate } = useMutation({
-    mutationFn: login,
-  });
-
-  const onSubmit = (values: AuthenticationValues) =>
-    mutate(values, {
-      onSuccess() {
-        toast({
-          variant: "default",
-          title: "Success",
-          description: "login successful.",
-        });
-
-        push("/management");
-      },
-
-      onError() {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description:
-            "invalid credentials, check your email and password and try again.",
-          action: <ToastAction altText="error">I understand</ToastAction>,
-        });
-      },
-    });
 
   return (
     <Form {...form}>

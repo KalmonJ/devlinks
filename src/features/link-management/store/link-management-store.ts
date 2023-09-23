@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Link } from "../types/link";
+import { Link } from "../types";
 
 type LinkManagementStore = {
   links: Link[];
