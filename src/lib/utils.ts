@@ -11,7 +11,9 @@ export function saveClientCookie(key: string, value: string) {
 
 export const cookies = {
   get<T>(key: string): T | null {
-    if (!document.cookie.includes("session=")) {
+    if (typeof document !== "object") return null;
+
+    if (!document || !document.cookie.includes("session=")) {
       return null;
     }
     const cookies = document.cookie.replaceAll(/\s/g, "").split(";");

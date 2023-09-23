@@ -13,8 +13,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Platforms, Link as TypeLink } from "../types";
-import { linkManagementStore } from "../store/link-management-store";
+
 import { forwardRef, HTMLAttributes } from "react";
+import { useLinksManagementStoreContext } from "../hooks/useLinksManagementStoreContext";
 
 interface LinkItemProps extends HTMLAttributes<HTMLDivElement> {
   index: number;
@@ -23,9 +24,7 @@ interface LinkItemProps extends HTMLAttributes<HTMLDivElement> {
 
 export const LinkItem = forwardRef<HTMLDivElement, LinkItemProps>(
   (props: LinkItemProps, ref) => {
-    const remove = linkManagementStore((state) => state.remove);
-    const addPlatform = linkManagementStore((state) => state.addPlatform);
-    const addLink = linkManagementStore((state) => state.addLink);
+    const { addPlatform, remove, addLink } = useLinksManagementStoreContext();
 
     return (
       <div

@@ -24,6 +24,6 @@ export type Platforms =
   | "";
 
 export type SaveLinks = {
-  links: Link[];
+  links: Omit<Link, "id">[];
   userId: string;
 };

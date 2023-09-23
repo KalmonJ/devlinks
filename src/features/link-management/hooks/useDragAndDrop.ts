@@ -1,12 +1,12 @@
 import React, { useRef } from "react";
-import { linkManagementStore } from "../store/link-management-store";
+import { useLinksManagementStoreContext } from "./useLinksManagementStoreContext";
 
 type Booleanish = "true" | "false" | boolean;
 
 export const useDragAndDrop = () => {
   const startDraggingPosition = useRef<number | null>(null);
   const endDraggingPosition = useRef<number | null>(null);
-  const { links: stateLinks, addLinks } = linkManagementStore();
+  const { links: stateLinks, addLinks } = useLinksManagementStoreContext();
 
   const handleSortLinks = () => {
     const links = [...stateLinks];

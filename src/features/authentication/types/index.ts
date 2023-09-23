@@ -4,10 +4,12 @@ export type Login = {
 };
 
 export type LoginResponse = {
-  session: {
-    accessToken: string;
-    user: User;
-  };
+  session: Session;
+};
+
+export type Session = {
+  accessToken: string;
+  user: User;
 };
 
 export type User = {

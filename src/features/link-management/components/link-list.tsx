@@ -3,18 +3,20 @@
 import { LinkItem } from "./link-item";
 import { AddLink } from "./add-link";
 import { Button } from "@/components/ui/button";
-import { linkManagementStore } from "../store/link-management-store";
+
 import { useDragAndDrop } from "../hooks/useDragAndDrop";
 import { useMutation } from "react-query";
 import { saveLinks } from "../lib/save-links";
 import { useToast } from "@/hooks/use-toast";
 import { useSession } from "@/hooks/useSession";
+import { useLinksManagementStoreContext } from "../hooks/useLinksManagementStoreContext";
 
 export const LinkList = () => {
-  const links = linkManagementStore((state) => state.links);
+  const { links } = useLinksManagementStoreContext();
   const { config } = useDragAndDrop();
   const { toast } = useToast();
   const session = useSession();
+
   const { mutate } = useMutation({
     mutationFn: saveLinks,
     onSuccess() {

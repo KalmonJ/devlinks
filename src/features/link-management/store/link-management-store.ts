@@ -1,17 +1,29 @@
-import { create } from "zustand";
 import { Link } from "../types";
+import { createStore } from "zustand";
 
-type LinkManagementStore = {
+export interface CreateLinkManagementStoreProps {
   links: Link[];
+}
+
+export interface CreateLinkManagementStore
+  extends CreateLinkManagementStoreProps {
   add: (link: Link) => void;
   remove: (id: string) => void;
   addPlatform: (platform: Link["platform"], idLink: string) => void;
   addLink: (value: string, idLink: string) => void;
   addLinks: (links: Link[]) => void;
+}
+
+const INITIAL_STATE = {
+  links: [],
 };
 
-export const linkManagementStore = create<LinkManagementStore>()(
-  (set, get) => ({
+export const createLinkManagementStore = (
+  props: CreateLinkManagementStoreProps
+) => {
+  return createStore<CreateLinkManagementStore>((set, get) => ({
+    ...INITIAL_STATE,
+    ...props,
     add(link) {
       set((state) => ({ links: [...state.links, link] }));
     },
@@ -37,6 +49,5 @@ export const linkManagementStore = create<LinkManagementStore>()(
     addLinks(links) {
       set(() => ({ links }));
     },
-    links: [],
-  })
-);
+  }));
+};

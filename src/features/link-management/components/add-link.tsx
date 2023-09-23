@@ -1,11 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { linkManagementStore } from "../store/link-management-store";
 import { v4 } from "uuid";
+import { useLinksManagementStoreContext } from "../hooks/useLinksManagementStoreContext";
 
 export const AddLink = () => {
-  const add = linkManagementStore((state) => state.add);
+  const { add } = useLinksManagementStoreContext();
 
   return (
     <Button
