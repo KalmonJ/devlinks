@@ -10,7 +10,7 @@ export const AddLink = () => {
   return (
     <Button
       onClick={() => {
-        add({ id: v4(), platform: "", link: "" });
+        add({ _id: v4(), platform: "", link: "" });
       }}
       className="mt-10 mb-6 font-semibold"
       variant="outline"

@@ -1,10 +1,10 @@
 export type Link = {
-  id: string;
+  _id: string;
   platform: Platforms;
   link: string;
 };
 
-export interface LinkWithoutId extends Omit<Link, "id"> {}
+export interface LinkWithoutId extends Omit<Link, "_id"> {}
 
 export type Platforms =
   | "GitHub"
@@ -24,6 +24,12 @@ export type Platforms =
   | "";
 
 export type SaveLinks = {
-  links: Omit<Link, "id">[];
+  links: LinkWithoutId[];
   userId: string;
+};
+
+export type ResponseLinks = {
+  user: string;
+  links: Link[];
+  _id: string;
 };

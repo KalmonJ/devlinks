@@ -12,7 +12,7 @@ import { useSession } from "@/hooks/useSession";
 import { useLinksManagementStoreContext } from "../hooks/useLinksManagementStoreContext";
 
 export const LinkList = () => {
-  const { links } = useLinksManagementStoreContext();
+  const { links, setRemoved, removed } = useLinksManagementStoreContext();
   const { config } = useDragAndDrop();
   const { toast } = useToast();
   const session = useSession();
@@ -28,11 +28,13 @@ export const LinkList = () => {
     },
   });
 
-  const handleSaveLinks = () =>
+  const handleSaveLinks = () => {
     mutate({
       links,
       userId: session?.user.id as string,
     });
+    setRemoved(false);
+  };
 
   return (
     <div>
@@ -47,14 +49,19 @@ export const LinkList = () => {
                 ...config,
               }}
               id={`draggable-${index}`}
-              key={link.id}
+              key={link._id}
             />
           ))}
         </div>
       </div>
       <hr className="bg-borders" />
       <div className="p-4 w-full">
-        <Button onClick={handleSaveLinks} className="w-full">
+        <Button
+          disabled={!removed}
+          onClick={handleSaveLinks}
+          variant="default"
+          className="w-full"
+        >
           Save
         </Button>
       </div>

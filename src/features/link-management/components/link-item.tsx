@@ -44,7 +44,7 @@ export const LinkItem = forwardRef<HTMLDivElement, LinkItemProps>(
           <span
             role="button"
             onClick={() => {
-              remove(props.link.id);
+              remove(props.link._id);
             }}
             className="text-grey font-normal text-base"
           >
@@ -54,8 +54,9 @@ export const LinkItem = forwardRef<HTMLDivElement, LinkItemProps>(
         <div className="flex flex-col gap-1">
           <Label>Platform</Label>
           <Select
+            defaultValue={props.link.platform}
             onValueChange={(value: Platforms) => {
-              addPlatform(value, props.link.id);
+              addPlatform(value, props.link._id);
             }}
           >
             <SelectTrigger className="w-full px-4 py-3 text-base text-grey">
@@ -86,8 +87,9 @@ export const LinkItem = forwardRef<HTMLDivElement, LinkItemProps>(
                 className="absolute text-grey left-3 top-1/2 bottom-1/2 -translate-y-1/2"
               />
             }
-            onChange={(e) => addLink(e.target.value, props.link.id)}
+            onChange={(e) => addLink(e.target.value, props.link._id)}
             placeholder="e.g. https://www.github.com/johnappleseed"
+            defaultValue={props.link.link}
           />
         </div>
       </div>

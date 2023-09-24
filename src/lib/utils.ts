@@ -20,7 +20,7 @@ export const cookies = {
     const cookieStr = cookies.find((cookie) => cookie.startsWith(`${key}=`));
     if (!cookieStr) return null;
     const formattedCookieStr = cookieStr.replace(`${key}=`, "");
-    const cookie: T = JSON.parse(formattedCookieStr);
+    const cookie: T = JSON.parse(formattedCookieStr ?? "{}");
     return cookie;
   },
 };
