@@ -12,8 +12,8 @@ export interface CreateLinkManagementStore
   addPlatform: (platform: Link["platform"], idLink: string) => void;
   addLink: (value: string, idLink: string) => void;
   addLinks: (links: Link[]) => void;
-  setRemoved: (removed: boolean) => void;
   removed: boolean;
+  setRemoved: (removed: boolean) => void;
 }
 
 const INITIAL_STATE = {
@@ -31,7 +31,7 @@ export const createLinkManagementStore = (
       set(() => ({ removed }));
     },
     add(link) {
-      set((state) => ({ links: [...state.links, link] }));
+      set((state) => ({ links: [...state.links, link], removed: true }));
     },
     remove(id: string) {
       set((state) => {

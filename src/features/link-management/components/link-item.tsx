@@ -54,7 +54,7 @@ export const LinkItem = forwardRef<HTMLDivElement, LinkItemProps>(
         <div className="flex flex-col gap-1">
           <Label>Platform</Label>
           <Select
-            defaultValue={props.link.platform}
+            defaultValue={props.link.platform ?? ""}
             onValueChange={(value: Platforms) => {
               addPlatform(value, props.link._id);
             }}

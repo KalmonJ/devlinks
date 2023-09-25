@@ -10,9 +10,10 @@ import { saveLinks } from "../lib/save-links";
 import { useToast } from "@/hooks/use-toast";
 import { useSession } from "@/hooks/useSession";
 import { useLinksManagementStoreContext } from "../hooks/useLinksManagementStoreContext";
+import { EmptyList } from "./empty-list";
 
 export const LinkList = () => {
-  const { links, setRemoved, removed } = useLinksManagementStoreContext();
+  const { links, removed, setRemoved } = useLinksManagementStoreContext();
   const { config } = useDragAndDrop();
   const { toast } = useToast();
   const session = useSession();
@@ -25,6 +26,10 @@ export const LinkList = () => {
         title: "Success",
         description: "links saved successfully.",
       });
+      setRemoved(false);
+    },
+    onError() {
+      setRemoved(true);
     },
   });
 
@@ -33,7 +38,6 @@ export const LinkList = () => {
       links,
       userId: session?.user.id as string,
     });
-    setRemoved(false);
   };
 
   return (
@@ -41,6 +45,8 @@ export const LinkList = () => {
       <div className="flex flex-col justify-between px-6 pb-6">
         <AddLink />
         <div className="flex flex-col gap-4">
+          {!links.length && <EmptyList />}
+
           {links.map((link, index) => (
             <LinkItem
               {...{
