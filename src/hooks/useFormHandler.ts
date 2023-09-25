@@ -1,11 +1,11 @@
-import { FieldValues, UseFormProps, useForm } from "react-hook-form";
+import { type FieldValues, type UseFormProps, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import z from "zod";
 
-type UseAuthenticationFormProps<T extends FieldValues, R> = {
+export type UseFormHandlerProps<T extends FieldValues, R> = {
   schema: z.ZodType<T>;
   toast?: boolean;
   successToastConfig?: SuccessToastConfig;
@@ -26,11 +26,11 @@ type FormConfig<T extends FieldValues> = {
   formProps?: UseFormProps<T>;
 };
 
-export const useAuthenticationForm = <T extends FieldValues, R = any>({
+export const useFormHandler = <T extends FieldValues, R = any>({
   submitFunction,
   toast: hasToast = true,
   ...props
-}: UseAuthenticationFormProps<T, R>) => {
+}: UseFormHandlerProps<T, R>) => {
   const { toast } = useToast();
   const { push } = useRouter();
 
@@ -73,9 +73,7 @@ export const useAuthenticationForm = <T extends FieldValues, R = any>({
     resolver: zodResolver(props.schema),
   });
 
-  const onSubmit = (values: T) => {
-    mutate(values);
-  };
+  const onSubmit = (values: T) => mutate(values);
 
   return {
     form,

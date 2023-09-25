@@ -13,27 +13,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { login } from "../lib/login";
 import z from "zod";
-import { useAuthenticationForm } from "../hooks/useAuthentication";
-import { authenticationSchema } from "../schema";
-import { LoginResponse } from "../types";
-import { saveClientCookie } from "@/lib/utils";
 
-type AuthenticationValues = z.infer<typeof authenticationSchema>;
+import { authenticationSchema } from "../schema";
+import { useAuthenticationForm } from "../hooks/useAuthenticationForm";
+
+export type AuthenticationValues = z.infer<typeof authenticationSchema>;
 
 export const AuthenticationForm = () => {
-  const { form, onSubmit } = useAuthenticationForm<
-    AuthenticationValues,
-    LoginResponse
-  >({
+  const { form, onSubmit } = useAuthenticationForm({
     submitFunction: login,
     schema: authenticationSchema,
-    onSuccess(data) {
-      saveClientCookie("session", JSON.stringify(data));
-    },
-    onSuccessRedirect: "/management",
-    successToastConfig: {
-      description: "login successful.",
-    },
   });
 
   return (
