@@ -5,17 +5,21 @@ import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import z from "zod";
 
-export type UseFormHandlerProps<T extends FieldValues, R> = {
+export type BaseProps<T = any, R = any> = {
   schema: z.ZodType<T>;
+  submitFunction: (props: T) => Promise<R>;
+};
+
+export type UseFormHandlerProps<T extends FieldValues, R> = {
   toast?: boolean;
   successToastConfig?: SuccessToastConfig;
   errorToastConfig?: ErrorToastConfig;
-  submitFunction: (props: T) => Promise<R>;
   onSuccess?: (data: R, variables: T) => void;
   onError?: (error: unknown, variables: T) => void;
   onSuccessRedirect?: string;
   onErrorRedirect?: string;
-} & FormConfig<T>;
+} & FormConfig<T> &
+  BaseProps<T, R>;
 
 type ToastConfig = Parameters<ReturnType<typeof useToast>["toast"]>[number];
 

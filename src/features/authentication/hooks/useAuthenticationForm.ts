@@ -5,6 +5,7 @@ import {
 import { AuthenticationValues } from "../components/authentication-form";
 import { LoginResponse } from "../types";
 import { saveClientCookie } from "@/lib/utils";
+import { userStore } from "@/stores/user";
 
 interface UseAuthenticationFormProps
   extends Pick<
@@ -19,6 +20,7 @@ const DEFAULT_VALUES: AuthenticationValues = {
 };
 
 export const useAuthenticationForm = (props: UseAuthenticationFormProps) => {
+  const setUser = userStore((state) => state.setUser);
   const { form, onSubmit } = useFormHandler<
     AuthenticationValues,
     LoginResponse
@@ -33,6 +35,7 @@ export const useAuthenticationForm = (props: UseAuthenticationFormProps) => {
     },
     onSuccess(data) {
       saveClientCookie("session", JSON.stringify(data));
+      setUser(data.session.user);
     },
   });
 

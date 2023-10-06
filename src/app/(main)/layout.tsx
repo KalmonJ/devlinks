@@ -10,13 +10,17 @@ export default async function MainLayout({
   children: ReactNode;
 }) {
   const session = getServerSession();
-  const [response] = await getAllLinks(session!.user.id);
+  const [response] = await getAllLinks(session!.user._id);
 
   return (
     <section>
       <Navbar />
       <div className="p-4 bg-light-grey">
-        <LinksProvider links={response.links}>{children}</LinksProvider>
+        <LinksProvider
+          links={response && response.links.length ? response.links : []}
+        >
+          {children}
+        </LinksProvider>
       </div>
     </section>
   );

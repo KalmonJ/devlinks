@@ -1,7 +1,7 @@
 import { Login, LoginResponse } from "../types";
 
 export const login = async (credentials: Login): Promise<LoginResponse> => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth`, {
+  const response = await fetch(`http://localhost:3333/auth`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

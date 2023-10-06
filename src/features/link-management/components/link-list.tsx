@@ -8,15 +8,16 @@ import { useDragAndDrop } from "../hooks/useDragAndDrop";
 import { useMutation } from "react-query";
 import { saveLinks } from "../lib/save-links";
 import { useToast } from "@/hooks/use-toast";
-import { useSession } from "@/hooks/useSession";
+
 import { useLinksManagementStoreContext } from "../hooks/useLinksManagementStoreContext";
 import { EmptyList } from "./empty-list";
+import { userStore } from "@/stores/user";
 
 export const LinkList = () => {
   const { links, removed, setRemoved } = useLinksManagementStoreContext();
   const { config } = useDragAndDrop();
   const { toast } = useToast();
-  const session = useSession();
+  const user = userStore((state) => state.user);
 
   const { mutate } = useMutation({
     mutationFn: saveLinks,
@@ -36,7 +37,7 @@ export const LinkList = () => {
   const handleSaveLinks = () => {
     mutate({
       links,
-      userId: session?.user.id as string,
+      userId: user?._id as string,
     });
   };
 

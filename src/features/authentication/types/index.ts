@@ -13,7 +13,7 @@ export type Session = {
 };
 
 export type User = {
-  id: string;
+  _id: string;
   image: string;
   email: string;
   firstName: string;
