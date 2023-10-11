@@ -2,8 +2,11 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { Eye, Link as LinkIcon, UserCircle2 } from "lucide-react";
 import Link from "next/link";
+import { getServerSession } from "@/lib/session";
 
 export const Navbar = () => {
+  const session = getServerSession();
+
   return (
     <nav className="flex bg-white py-4 pr-4 pl-6 rounded-xl items-center justify-between">
       <Image
@@ -31,9 +34,13 @@ export const Navbar = () => {
           </Button>
         </Link>
       </div>
-      <Button variant="outline" size="sm">
-        <Eye className="text-purple" />
-      </Button>
+      <Link
+        href={{ pathname: "/preview", query: { id: session?.user._id ?? "" } }}
+      >
+        <Button variant="outline" size="sm">
+          <Eye className="text-purple" />
+        </Button>
+      </Link>
     </nav>
   );
 };

@@ -17,7 +17,7 @@ export const updateProfile = async (props: UpdateProfileProps) => {
     }
   });
 
-  const response = await fetch(`http://localhost:3333/user`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
     method: "PUT",
     body: formData,
   });
